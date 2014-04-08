@@ -4,6 +4,7 @@ import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Random;
 
 import javax.swing.JOptionPane;
 
@@ -15,6 +16,8 @@ public class ConnectFourModel implements ActionListener{
   private int counter = 0;
   private Component parent;
   private PlayMode playMode;
+  private GameButton[] availableBtnArray;
+  
   public ConnectFourModel(Component parent, GameButton[][] board,
       PlayMode playMode){
     this.parent = parent;
@@ -26,20 +29,20 @@ public class ConnectFourModel implements ActionListener{
         this.board[i][j].addActionListener(this);
       }
     }
+    availableBtnArray = new GameButton[this.n];
     this.playMode = playMode;
   }
   public ConnectFourModel(Component parent, GameButton[][] board){
     this(parent, board, PlayMode.SINGLE);
   }
   
-//  private void stop(){
-//    this.counter = 0;
-//    for (int i = 0; i < this.m; i++){
-//      for (int j = 0; j < this.n; j++){
-//        this.board[i][j].stop();
-//      }
-//    }
-//  }
+  private void aiPlay(){
+    if (this.playMode == PlayMode.SINGLE){
+      Random rn = new Random();
+      int idx = rn.nextInt(this.n);
+      availableBtnArray[idx].doClick();
+    }
+  }
   
   private void reset(){
     this.counter = 0;
@@ -137,10 +140,13 @@ public class ConnectFourModel implements ActionListener{
   }
 
   public void setAvailable(){
+    int k = 0;
     for(int j = 0; j < this.n; j++){
       int i = this.m - 1;
       if (this.board[i][j].getRole() == null){
         this.board[i][j].setEnabled(true);
+        availableBtnArray[k] = this.board[i][j];
+        k++;
       }
     }
     for (int i = 0; i < this.m - 1; i++){
@@ -148,6 +154,8 @@ public class ConnectFourModel implements ActionListener{
         if (this.board[i][j].getRole() == null &&
             this.board[i + 1][j].getRole() != null){
           this.board[i][j].setEnabled(true);
+          availableBtnArray[k] = this.board[i][j];
+          k++;
         }
       }
     }
@@ -166,6 +174,9 @@ public class ConnectFourModel implements ActionListener{
       String msg = String.format("Winner is %s", winner.name());
       JOptionPane.showMessageDialog(this.parent, msg);
       this.reset();
+    }
+    if (role == GameRole.PLAYER1 && winner == null){
+      this.aiPlay();
     }
   }
 

@@ -2,9 +2,6 @@ package com.shoudaw.pqs14_4.connect_four;
 
 import static org.junit.Assert.*;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-
 import org.junit.Test;
 
 
