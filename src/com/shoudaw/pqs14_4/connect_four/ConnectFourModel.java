@@ -14,7 +14,9 @@ public class ConnectFourModel implements ActionListener{
   private int n = 0;
   private int counter = 0;
   private Component parent;
-  public ConnectFourModel(Component parent, GameButton[][] board){
+  private PlayMode playMode;
+  public ConnectFourModel(Component parent, GameButton[][] board,
+      PlayMode playMode){
     this.parent = parent;
     this.m = board.length;
     this.n = board[0].length;
@@ -24,7 +26,32 @@ public class ConnectFourModel implements ActionListener{
         this.board[i][j].addActionListener(this);
       }
     }
+    this.playMode = playMode;
   }
+  public ConnectFourModel(Component parent, GameButton[][] board){
+    this(parent, board, PlayMode.SINGLE);
+  }
+  
+//  private void stop(){
+//    this.counter = 0;
+//    for (int i = 0; i < this.m; i++){
+//      for (int j = 0; j < this.n; j++){
+//        this.board[i][j].stop();
+//      }
+//    }
+//  }
+  
+  private void reset(){
+    this.counter = 0;
+    for (int i = 0; i < this.m; i++){
+      for (int j = 0; j < this.n; j++){
+        this.board[i][j].reset();
+        this.board[i][j].setBackground(null);
+      }
+    }
+    this.setAvailable();
+  }
+  
   public GameRole whoWin(){
     
     //horizontally
@@ -138,6 +165,13 @@ public class ConnectFourModel implements ActionListener{
     if (winner != null){
       String msg = String.format("Winner is %s", winner.name());
       JOptionPane.showMessageDialog(this.parent, msg);
+      this.reset();
     }
+  }
+
+  public void changePlayMode(PlayMode playMode) {
+    this.playMode = playMode;
+    this.reset();
+
   }
 }

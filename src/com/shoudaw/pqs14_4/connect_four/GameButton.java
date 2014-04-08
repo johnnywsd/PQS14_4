@@ -19,6 +19,10 @@ public class GameButton extends JButton{
   public GameRole getRole(){
     return this.role;
   }
+  public void reset(){
+    this.setEnabled(false);
+    this.role = null;
+  }
   
   
 }
