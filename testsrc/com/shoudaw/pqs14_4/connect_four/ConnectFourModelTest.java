@@ -27,7 +27,7 @@ public class ConnectFourModelTest {
     board[5][4].setRole(GameRole.PLAYER1);
     board[5][5].setRole(GameRole.PLAYER1);
     board[5][6].setRole(GameRole.PLAYER2);
-    ConnectFourModel cfm = new ConnectFourModel(board);
+    ConnectFourModel cfm = new ConnectFourModel(null, board);
     GameRole res = cfm.whoWin();
     assertEquals(GameRole.PLAYER1, res);
   }
@@ -48,7 +48,7 @@ public class ConnectFourModelTest {
     board[3][0].setRole(GameRole.PLAYER1);
     board[4][0].setRole(GameRole.PLAYER1);
     board[5][0].setRole(GameRole.PLAYER1);
-    ConnectFourModel cfm = new ConnectFourModel(board);
+    ConnectFourModel cfm = new ConnectFourModel(null, board);
     GameRole res = cfm.whoWin();
     assertEquals(GameRole.PLAYER1, res);
   }
@@ -69,7 +69,7 @@ public class ConnectFourModelTest {
     board[3][3].setRole(GameRole.PLAYER1);
     board[4][4].setRole(GameRole.PLAYER1);
     board[5][5].setRole(GameRole.PLAYER1);
-    ConnectFourModel cfm = new ConnectFourModel(board);
+    ConnectFourModel cfm = new ConnectFourModel(null, board);
     GameRole res = cfm.whoWin();
     assertEquals(GameRole.PLAYER1, res);
   }
@@ -90,7 +90,7 @@ public class ConnectFourModelTest {
     board[3][2].setRole(GameRole.PLAYER1);
     board[4][1].setRole(GameRole.PLAYER1);
     board[5][0].setRole(GameRole.PLAYER1);
-    ConnectFourModel cfm = new ConnectFourModel(board);
+    ConnectFourModel cfm = new ConnectFourModel(null, board);
     GameRole res = cfm.whoWin();
     assertEquals(GameRole.PLAYER1, res);
   }

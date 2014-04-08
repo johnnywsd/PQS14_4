@@ -1,16 +1,29 @@
 package com.shoudaw.pqs14_4.connect_four;
 
+import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-public class ConnectFourModel {
+import javax.swing.JOptionPane;
+
+public class ConnectFourModel implements ActionListener{
   private static final int WIN_NUM = 4;
   private GameButton[][] board;
   private int m = 0;
   private int n = 0;
-  public ConnectFourModel(GameButton[][] board){
+  private int counter = 0;
+  private Component parent;
+  public ConnectFourModel(Component parent, GameButton[][] board){
+    this.parent = parent;
     this.m = board.length;
     this.n = board[0].length;
     this.board = board;
+    for (int i = 0; i < this.m; i++){
+      for (int j = 0; j < this.n; j++){
+        this.board[i][j].addActionListener(this);
+      }
+    }
   }
   public GameRole whoWin(){
     
@@ -94,5 +107,37 @@ public class ConnectFourModel {
       }
     }
     return null;
+  }
+
+  public void setAvailable(){
+    for(int j = 0; j < this.n; j++){
+      int i = this.m - 1;
+      if (this.board[i][j].getRole() == null){
+        this.board[i][j].setEnabled(true);
+      }
+    }
+    for (int i = 0; i < this.m - 1; i++){
+      for (int j = 0; j < this.n; j++){
+        if (this.board[i][j].getRole() == null &&
+            this.board[i + 1][j].getRole() != null){
+          this.board[i][j].setEnabled(true);
+        }
+      }
+    }
+  }
+  @Override
+  public void actionPerformed(ActionEvent e) {
+    GameButton btn = (GameButton)e.getSource();
+    GameRole role = GameRole.fromInteger(counter);
+    counter++;
+    counter = counter % GameRole.size();
+    btn.setRole(role);
+    btn.setBackground(GameRole.getColor(role));
+    this.setAvailable();
+    GameRole winner = this.whoWin();
+    if (winner != null){
+      String msg = String.format("Winner is %s", winner.name());
+      JOptionPane.showMessageDialog(this.parent, msg);
+    }
   }
 }
